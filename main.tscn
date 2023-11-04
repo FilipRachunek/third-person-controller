@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2annawx4nsat"]
+
+[ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
+[ext_resource type="PackedScene" uid="uid://bnhfpynhx0yl7" path="res://character.tscn" id="2_3y7m8"]
+[ext_resource type="Script" path="res://CameraController.gd" id="3_m8tis"]
+[ext_resource type="Texture2D" uid="uid://bfjekrqh76fri" path="res://shaders/godot.png" id="4_vj5cb"]
+[ext_resource type="Shader" path="res://shaders/crt.gdshader" id="5_ki2th"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ashca"]
+material = ExtResource("1_74u8h")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o03sk"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h2p2a"]
+shader = ExtResource("5_ki2th")
+shader_parameter/crt_brightness = 1.0
+shader_parameter/crt_ghost = 3.0
+shader_parameter/crt_grid = 0.4
+shader_parameter/crt_white_noise = 0.0
+shader_parameter/crt_curve = 0.05
+
+[node name="main" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_ashca")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_o03sk")
+
+[node name="character" parent="." groups=["playable"] instance=ExtResource("2_3y7m8")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+
+[node name="CameraController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.968912, 0.247405, 0, -0.247405, 0.968912, 0, 1.98936, 1.39505)
+script = ExtResource("3_m8tis")
+
+[node name="LookAt" type="Node3D" parent="CameraController"]
+transform = Transform3D(1, 0, 0, 0, 0.968912, -0.247405, 0, 0.247405, 0.968912, 0, 0.105625, -2.14613)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraController"]
+
+[node name="Camera3D" type="Camera3D" parent="CameraController/SpringArm3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+texture = ExtResource("4_vj5cb")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1152, 648)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_h2p2a")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
