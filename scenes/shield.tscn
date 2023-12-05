@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://trmkv1as0d3j"]
+
+[ext_resource type="Shader" uid="uid://s2q6q1md2nxo" path="res://shaders/shield.tres" id="1_iypvh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ld566"]
+render_priority = 0
+shader = ExtResource("1_iypvh")
+shader_parameter/speed = 0.2
+shader_parameter/shield_color = Color(0.654902, 0.866667, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_h644b"]
+material = SubResource("ShaderMaterial_ld566")
+radius = 1.5
+height = 3.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e2bhc"]
+radius = 1.5
+
+[node name="shield" type="Area3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_h644b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_e2bhc")

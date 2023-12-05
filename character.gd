@@ -12,6 +12,10 @@ var running = false
 @onready var camera_look_at = $"../CameraController/LookAt"
 
 
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
 func _input(_event):
 	running = true if Input.is_action_pressed("move_run") else false
 	if Input.is_action_just_pressed("ui_cancel"):

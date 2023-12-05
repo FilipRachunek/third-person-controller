@@ -29,6 +29,6 @@ func _input(event):
 			spring_arm_3d.spring_length = clampf(spring_arm_3d.spring_length + zoom_sensitivity, 1, 6)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	global_position = Vector3(hero.global_position.x, hero.global_position.y + 1.8, hero.global_position.z)
 	camera_3d.look_at(look_at_hero.global_position)
