@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://d2annawx4nsat"]
+[gd_scene load_steps=18 format=3 uid="uid://d2annawx4nsat"]
 
 [ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
+[ext_resource type="Script" path="res://main.gd" id="1_l06h0"]
 [ext_resource type="PackedScene" uid="uid://bnhfpynhx0yl7" path="res://character.tscn" id="2_3y7m8"]
 [ext_resource type="Script" path="res://CameraController.gd" id="3_m8tis"]
 [ext_resource type="Texture2D" uid="uid://bfjekrqh76fri" path="res://shaders/godot.png" id="4_vj5cb"]
-[ext_resource type="Shader" path="res://shaders/crt.gdshader" id="5_ki2th"]
+[ext_resource type="Shader" path="res://shaders/sobel.gdshader" id="5_qsydg"]
 [ext_resource type="Texture2D" uid="uid://bnapn4b7vmo0x" path="res://addons/kenney_particle_pack/smoke_01.png" id="6_8rl3t"]
+[ext_resource type="Script" path="res://pause_node.gd" id="8_ubmbb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ashca"]
 material = ExtResource("1_74u8h")
@@ -15,12 +17,7 @@ size = Vector3(100, 1, 100)
 size = Vector3(100, 1, 100)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2p2a"]
-shader = ExtResource("5_ki2th")
-shader_parameter/crt_brightness = 1.0
-shader_parameter/crt_ghost = 3.0
-shader_parameter/crt_grid = 0.4
-shader_parameter/crt_white_noise = 0.0
-shader_parameter/crt_curve = 0.05
+shader = ExtResource("5_qsydg")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hus3d"]
 emission_shape = 3
@@ -62,6 +59,7 @@ background_mode = 2
 sky = SubResource("Sky_eyjt1")
 
 [node name="main" type="Node3D"]
+script = ExtResource("1_l06h0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -90,9 +88,9 @@ transform = Transform3D(1, 0, 0, 0, 0.968912, -0.247405, 0, 0.247405, 0.968912, 
 [node name="Camera3D" type="Camera3D" parent="CameraController/SpringArm3D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+visible = false
 texture = ExtResource("4_vj5cb")
 centered = false
 region_enabled = true
@@ -120,3 +118,23 @@ size = Vector3(100, 1, 100)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_o0wor")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="PauseLabel" type="Label" parent="CanvasLayer2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -11.5
+offset_right = 53.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game paused"
+
+[node name="PauseNode" type="Node" parent="."]
+process_mode = 2
+script = ExtResource("8_ubmbb")
