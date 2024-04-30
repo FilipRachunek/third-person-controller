@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d2annawx4nsat"]
+[gd_scene load_steps=19 format=3 uid="uid://d2annawx4nsat"]
 
 [ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
 [ext_resource type="Script" path="res://main.gd" id="1_l06h0"]
@@ -58,6 +58,9 @@ sky_material = SubResource("PhysicalSkyMaterial_nc2ys")
 background_mode = 2
 sky = SubResource("Sky_eyjt1")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_efq4w"]
+viewport_path = NodePath("SubViewport")
+
 [node name="main" type="Node3D"]
 script = ExtResource("1_l06h0")
 
@@ -88,6 +91,7 @@ transform = Transform3D(1, 0, 0, 0, 0.968912, -0.247405, 0, 0.247405, 0.968912, 
 [node name="Camera3D" type="Camera3D" parent="CameraController/SpringArm3D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
 visible = false
@@ -138,3 +142,12 @@ text = "Game paused"
 [node name="PauseNode" type="Node" parent="."]
 process_mode = 2
 script = ExtResource("8_ubmbb")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.0863559, 0, 0.996264, 0, 1, 0, -0.996264, 0, 0.0863559, 17.4134, 1.17391, -26.0717)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.774613, 0, -0.632435, 0, 1, 0, 0.632435, 0, 0.774613, 0, 2.64633, -30.7154)
+texture = SubResource("ViewportTexture_efq4w")
