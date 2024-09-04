@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d2annawx4nsat"]
+[gd_scene load_steps=22 format=3 uid="uid://d2annawx4nsat"]
 
 [ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
 [ext_resource type="Script" path="res://main.gd" id="1_l06h0"]
@@ -8,6 +8,7 @@
 [ext_resource type="Shader" path="res://shaders/sobel.gdshader" id="5_qsydg"]
 [ext_resource type="Texture2D" uid="uid://bnapn4b7vmo0x" path="res://addons/kenney_particle_pack/smoke_01.png" id="6_8rl3t"]
 [ext_resource type="Script" path="res://pause_node.gd" id="8_ubmbb"]
+[ext_resource type="Shader" path="res://edge.gdshader" id="9_yt2an"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ashca"]
 material = ExtResource("1_74u8h")
@@ -60,6 +61,17 @@ sky = SubResource("Sky_eyjt1")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_efq4w"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocyml"]
+render_priority = 0
+shader = ExtResource("9_yt2an")
+shader_parameter/threshold = 0.5
+shader_parameter/line_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/background_color = Color(0.9, 0.9, 0.9, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ysgsj"]
+flip_faces = true
+size = Vector2(2, 2)
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_l06h0")
@@ -151,3 +163,9 @@ transform = Transform3D(0.0863559, 0, 0.996264, 0, 1, 0, -0.996264, 0, 0.0863559
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.774613, 0, -0.632435, 0, 1, 0, 0.632435, 0, 0.774613, 0, 2.64633, -30.7154)
 texture = SubResource("ViewportTexture_efq4w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+material_override = SubResource("ShaderMaterial_ocyml")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_ysgsj")
