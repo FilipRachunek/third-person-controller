@@ -1,0 +1,15 @@
+[gd_resource type="Sky" load_steps=5 format=3 uid="uid://bkg3vow6k77rl"]
+
+[ext_resource type="Shader" path="res://planet.gdshader" id="1_p1r2k"]
+[ext_resource type="Texture2D" uid="uid://dxggu56qm3gl7" path="res://textures/planet.png" id="2_s7y2k"]
+[ext_resource type="Texture2D" uid="uid://cj1uo7vsx8n3" path="res://textures/sky.png" id="3_0lmno"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkxd1"]
+shader = ExtResource("1_p1r2k")
+shader_parameter/sun_pos = Vector3(20000, 0, -10000)
+shader_parameter/planet_radius = 300.0
+shader_parameter/sky_tex = ExtResource("3_0lmno")
+shader_parameter/planet_tex = ExtResource("2_s7y2k")
+
+[resource]
+sky_material = SubResource("ShaderMaterial_jkxd1")
