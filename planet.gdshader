@@ -4,6 +4,10 @@ uniform sampler2D sky_tex: source_color, filter_linear, hint_default_black;
 uniform vec3 sun_pos = vec3(0.0);
 uniform sampler2D planet_tex: source_color, filter_linear;
 uniform float planet_radius = 300.0;
+uniform sampler2D cloud_tex: source_color;
+uniform vec4 cloud_color: source_color = vec4(1.0);
+uniform float rotation_speed: hint_range(0.0, 1.0, 0.01) = 0.02;
+uniform sampler2D moon_tex: source_color, filter_linear_mipmap_anisotropic;
 
 struct RayHit {
 	bool is_hit;
@@ -60,13 +64,39 @@ void sky() {
 	} else {
 		vec3 planet_center = vec3(0.0, -100.0, planet_radius * 2.0);
 		RayHit planet_hit = hit_sphere(POSITION, EYEDIR, planet_center, planet_radius);
+		float moon_planet_dist = planet_radius * 8.0;
+		float moon_angle = TIME / 10.0;
+		vec3 moon_center = planet_center + vec3(sin(moon_angle) * moon_planet_dist, 0.0, cos(moon_angle) * moon_planet_dist);
+		float moon_radius = planet_radius / 3.0;
+		RayHit moon_hit = hit_sphere(POSITION, EYEDIR, moon_center, moon_radius);
 		if (planet_hit.is_hit) {
-			vec2 uv = get_spherical_uv(planet_hit.hit_point - planet_center, TIME * 0.02);
-			COLOR = texture(planet_tex, uv).rgb;
+			vec2 uv = get_spherical_uv(planet_hit.hit_point - planet_center, TIME * rotation_speed);
+			vec3 color = texture(planet_tex, uv).rgb;
+			vec2 cloud_uv = get_spherical_uv(planet_hit.hit_point - planet_center, TIME * rotation_speed);
+			float cloud_noise = texture(cloud_tex, cloud_uv).r;
+			vec2 cloud_uv2 = get_spherical_uv(planet_hit.hit_point - planet_center, (TIME * rotation_speed * 200.0 + 40.0) * 0.035);
+			float cloud_noise2 = texture(cloud_tex, cloud_uv2).r;
+			cloud_noise = mix(cloud_noise, cloud_noise2, 0.5);
+			COLOR = mix(color, cloud_color.rgb, cloud_noise * cloud_color.a);
 			vec3 sunlight_dir = normalize(planet_hit.hit_point - sun_pos);
-			RayHit light_hit = hit_sphere(planet_hit.hit_point, -sunlight_dir, planet_center, planet_radius);
+			RayHit light_hit = hit_sphere(planet_hit.hit_point, -sunlight_dir, moon_center, moon_radius);
 			vec3 lighting = compute_lighting(planet_hit.normal, sunlight_dir);
 			COLOR *= lighting;
+			if (light_hit.is_hit) {
+				COLOR *= 0.2;
+			}
+		} else if (moon_hit.is_hit) {
+			vec2 uv = get_spherical_uv(moon_hit.hit_point - moon_center, 0.0);
+			vec3 color = texture(moon_tex, uv).rgb;
+			vec3 sunlight_dir = normalize(moon_hit.hit_point - sun_pos);
+			RayHit light_hit = hit_sphere(moon_hit.hit_point, -sunlight_dir, planet_center, planet_radius);
+			if (light_hit.is_hit) {
+				color *= 0.0;
+			} else {
+				vec3 lighting = compute_lighting(moon_hit.normal, sunlight_dir);
+				color *= lighting;
+			}
+			COLOR = color;
 		} else {
 			COLOR = texture(sky_tex, SKY_COORDS).rgb;
 			float ds = max(dot(normalize(sun_pos - POSITION), EYEDIR), 0.0);
