@@ -20,7 +20,7 @@ const mat3 sobel_y = mat3(
 );
 
 void vertex() {
-	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+	//POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
 void fragment() {

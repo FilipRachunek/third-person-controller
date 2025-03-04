@@ -1,15 +1,15 @@
 [gd_scene load_steps=21 format=3 uid="uid://d2annawx4nsat"]
 
 [ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
-[ext_resource type="Script" path="res://main.gd" id="1_l06h0"]
+[ext_resource type="Script" uid="uid://bht8rkm1qbxas" path="res://main.gd" id="1_l06h0"]
 [ext_resource type="PackedScene" uid="uid://bnhfpynhx0yl7" path="res://character.tscn" id="2_3y7m8"]
-[ext_resource type="Script" path="res://CameraController.gd" id="3_m8tis"]
+[ext_resource type="Script" uid="uid://2nh62yuwsous" path="res://CameraController.gd" id="3_m8tis"]
 [ext_resource type="Texture2D" uid="uid://bfjekrqh76fri" path="res://shaders/godot.png" id="4_vj5cb"]
-[ext_resource type="Shader" path="res://shaders/sobel.gdshader" id="5_qsydg"]
+[ext_resource type="Shader" uid="uid://crymcdlayw7xj" path="res://shaders/sobel.gdshader" id="5_qsydg"]
 [ext_resource type="Texture2D" uid="uid://bnapn4b7vmo0x" path="res://addons/kenney_particle_pack/smoke_01.png" id="6_8rl3t"]
 [ext_resource type="Sky" uid="uid://bkg3vow6k77rl" path="res://planet.tres" id="8_tlkt0"]
-[ext_resource type="Script" path="res://pause_node.gd" id="8_ubmbb"]
-[ext_resource type="Shader" path="res://edge.gdshader" id="9_yt2an"]
+[ext_resource type="Script" uid="uid://cyt856kh3qqgx" path="res://pause_node.gd" id="8_ubmbb"]
+[ext_resource type="Shader" uid="uid://bauqddwan365d" path="res://edge.gdshader" id="9_yt2an"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ashca"]
 material = ExtResource("1_74u8h")
@@ -69,13 +69,13 @@ shader_parameter/background_color = Color(0.9, 0.9, 0.9, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_ysgsj"]
 flip_faces = true
-size = Vector2(2, 2)
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_l06h0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("BoxMesh_ashca")
@@ -120,6 +120,7 @@ grow_vertical = 2
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+visible = false
 amount = 10000
 lifetime = 5.0
 visibility_aabb = AABB(-50, -20, -50, 100, 20, 100)
@@ -164,7 +165,7 @@ visible = false
 texture = SubResource("ViewportTexture_efq4w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.664651, 1.27894, -0.445392)
 material_override = SubResource("ShaderMaterial_ocyml")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_ysgsj")
