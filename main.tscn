@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d2annawx4nsat"]
+[gd_scene load_steps=24 format=3 uid="uid://d2annawx4nsat"]
 
 [ext_resource type="Material" uid="uid://cmhkbfhvtjlv0" path="res://materials/floor.tres" id="1_74u8h"]
 [ext_resource type="Script" uid="uid://bht8rkm1qbxas" path="res://main.gd" id="1_l06h0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bnapn4b7vmo0x" path="res://addons/kenney_particle_pack/smoke_01.png" id="6_8rl3t"]
 [ext_resource type="Sky" uid="uid://bkg3vow6k77rl" path="res://planet.tres" id="8_tlkt0"]
 [ext_resource type="Script" uid="uid://cyt856kh3qqgx" path="res://pause_node.gd" id="8_ubmbb"]
+[ext_resource type="Script" uid="uid://cskl4xfu038e2" path="res://scripts/g.gd" id="9_efxa6"]
 [ext_resource type="Shader" uid="uid://bauqddwan365d" path="res://edge.gdshader" id="9_yt2an"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ashca"]
@@ -56,6 +57,19 @@ background_mode = 2
 sky = ExtResource("8_tlkt0")
 ambient_light_source = 1
 reflected_light_source = 1
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_dg77c"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("9_efxa6")
+metadata/_custom_type_script = "uid://cskl4xfu038e2"
+
+[sub_resource type="Compositor" id="Compositor_ycdy4"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_dg77c")])
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_efq4w"]
 viewport_path = NodePath("SubViewport")
@@ -133,6 +147,7 @@ size = Vector3(100, 1, 100)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_o0wor")
+compositor = SubResource("Compositor_ycdy4")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
