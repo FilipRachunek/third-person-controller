@@ -1,4 +1,4 @@
-[gd_resource type="Sky" load_steps=9 format=3 uid="uid://bkg3vow6k77rl"]
+[gd_resource type="Sky" format=3 uid="uid://bkg3vow6k77rl"]
 
 [ext_resource type="Shader" uid="uid://rl0jlr2nvotb" path="res://planet.gdshader" id="1_p1r2k"]
 [ext_resource type="Texture2D" uid="uid://dk630xvyahlhi" path="res://textures/moon.png" id="2_odn2b"]
@@ -11,9 +11,9 @@ offsets = PackedFloat32Array(0.187845, 0.872928)
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_seoa4"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rb1ng"]
-seamless = true
-color_ramp = SubResource("Gradient_g2hn8")
 noise = SubResource("FastNoiseLite_seoa4")
+color_ramp = SubResource("Gradient_g2hn8")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jkxd1"]
 shader = ExtResource("1_p1r2k")
